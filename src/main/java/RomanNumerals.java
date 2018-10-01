@@ -3,9 +3,34 @@ import java.util.List;
 
 public class RomanNumerals {
 
-    List<Numerals> listOfNumerals = new ArrayList<>();
+    private static List<Numerals> listOfNumerals = new ArrayList<>();
 
-    public void addNumerals() {
+    private static String convertNumberToNumeral(int number) {
+
+        StringBuilder numeralString = new StringBuilder();
+
+        for (Numerals numerals : listOfNumerals) {
+            int numeralNumber = numerals.getNumber();
+            String numeralsValue = numerals.getNumeral();
+            for (; number >= numeralNumber; number -= numeralNumber) {
+                numeralString.append(numeralsValue);
+            }
+        }
+
+        return numeralString.toString();
+    }
+
+
+    public static void main(String[] args) {
+        addNumerals();
+
+        System.out.println(convertNumberToNumeral(100));
+        System.out.println(convertNumberToNumeral(24));
+        System.out.println(convertNumberToNumeral(54));
+        System.out.println(convertNumberToNumeral(37));
+    }
+
+    private static void addNumerals() {
         listOfNumerals.add(new Numerals(1000, "M"));
         listOfNumerals.add(new Numerals(900, "CM"));
         listOfNumerals.add(new Numerals(500, "D"));

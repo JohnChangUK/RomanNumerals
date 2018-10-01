@@ -1,43 +1,37 @@
-import java.util.Objects;
-
 public class Numerals {
 
     private int number;
-    private String Numeral;
+    private String numeral;
 
-    public Numerals(int number, String numeral) {
+    Numerals(int number, String numeral) {
         this.number = number;
-        Numeral = numeral;
+        this.numeral = numeral;
     }
 
-    public int getNumber() {
+    int getNumber() {
         return number;
     }
 
-    public void setNumber(int number) {
-        this.number = number;
-    }
-
-    public String getNumeral() {
-        return Numeral;
-    }
-
-    public void setNumeral(String numeral) {
-        Numeral = numeral;
+    String getNumeral() {
+        return numeral;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+
         Numerals numerals = (Numerals) o;
-        return number == numerals.number &&
-                Objects.equals(Numeral, numerals.Numeral);
+
+        if (number != numerals.number) return false;
+        return numeral != null ? numeral.equals(numerals.numeral) : numerals.numeral == null;
     }
 
     @Override
     public int hashCode() {
-
-        return Objects.hash(number, Numeral);
+        int result = number;
+        result = 31 * result + (numeral != null ? numeral.hashCode() : 0);
+        return result;
     }
+
 }
