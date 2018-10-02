@@ -5,7 +5,7 @@ public class RomanNumerals {
 
     private static List<Numerals> listOfNumerals = new ArrayList<>();
 
-    private static String convertNumberToNumeral(int number) {
+    static String convertNumberToNumeral(int number) {
 
         StringBuilder numeralString = new StringBuilder();
 
@@ -30,7 +30,7 @@ public class RomanNumerals {
         System.out.println(convertNumberToNumeral(37));
     }
 
-    private static void addNumerals() {
+    static void addNumerals() {
         listOfNumerals.add(new Numerals(1000, "M"));
         listOfNumerals.add(new Numerals(900, "CM"));
         listOfNumerals.add(new Numerals(500, "D"));
