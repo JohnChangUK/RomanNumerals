@@ -1,9 +1,9 @@
-public class Numerals {
+public class Numeral {
 
     private int number;
     private String numeral;
 
-    Numerals(int number, String numeral) {
+    Numeral(int number, String numeral) {
         this.number = number;
         this.numeral = numeral;
     }
@@ -21,10 +21,10 @@ public class Numerals {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Numerals numerals = (Numerals) o;
+        Numeral numeral1 = (Numeral) o;
 
-        if (number != numerals.number) return false;
-        return numeral != null ? numeral.equals(numerals.numeral) : numerals.numeral == null;
+        if (number != numeral1.number) return false;
+        return numeral != null ? numeral.equals(numeral1.numeral) : numeral1.numeral == null;
     }
 
     @Override
@@ -33,5 +33,4 @@ public class Numerals {
         result = 31 * result + (numeral != null ? numeral.hashCode() : 0);
         return result;
     }
-
 }

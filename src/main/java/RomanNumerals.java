@@ -1,74 +1,64 @@
+import exceptions.InvalidNumberException;
+
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class RomanNumerals {
 
-    private static List<Numerals> listOfNumerals = Arrays.asList(
-            new Numerals(1000, "M"),
-            new Numerals(900, "CM"),
-            new Numerals(500, "D"),
-            new Numerals(400, "CD"),
-            new Numerals(100, "C"),
-            new Numerals(90, "XC"),
-            new Numerals(50, "L"),
-            new Numerals(40, "XL"),
-            new Numerals(10, "X"),
-            new Numerals(9, "IX"),
-            new Numerals(5, "V"),
-            new Numerals(4, "IV"),
-            new Numerals(1, "I")
+    private static final Logger LOGGER = Logger.getLogger(RomanNumerals.class.getName());
+
+    private static List<Numeral> listOfNumerals = Arrays.asList(
+            new Numeral(1000, "M"),
+            new Numeral(900, "CM"),
+            new Numeral(500, "D"),
+            new Numeral(400, "CD"),
+            new Numeral(100, "C"),
+            new Numeral(90, "XC"),
+            new Numeral(50, "L"),
+            new Numeral(40, "XL"),
+            new Numeral(10, "X"),
+            new Numeral(9, "IX"),
+            new Numeral(5, "V"),
+            new Numeral(4, "IV"),
+            new Numeral(1, "I")
     );
 
-    static String convertNumberToNumeral(int number) {
+    static String convertNumberToNumeral(int arabicNumber) throws InvalidNumberException {
 
+        if (arabicNumber < 1) {
+            throw new InvalidNumberException("Invalid number given, enter a number greater than zero");
+        }
+
+        int remainder = arabicNumber;
         StringBuilder numeralString = new StringBuilder();
 
-//        while (number > 0) {
-//            currentIndex = findHighestNumeral(number, currentIndex);
-//            Numerals numerals = listOfNumerals.get(currentIndex);
-//            numeralString.append(numerals.getNumeral());
-//            number -= numerals.getNumber();
-//        }
-
-//        for (Numerals numerals : listOfNumerals) {
-//            int numeralNumber = numerals.getNumber();
-//            String numeralsValue = numerals.getNumeral();
-//            for (; number >= numeralNumber; number -= numeralNumber) {
-//                numeralString.append(numeralsValue);
-//            }
-//        }
-//
-//        while (number > 0) {
-//            Numerals largestNumeral = findHighestNumeral(number);
-//            numeralString.append(largestNumeral.getNumeral());
-//            number -= largestNumeral.getNumber();
-//        }
-
-        while (number > 0) {
-            int currentIndex = findBestNumeral2(number);
-            Numerals numerals = listOfNumerals.get(currentIndex);
-            numeralString.append(numerals.getNumeral());
-            number -= numerals.getNumber();
+        while (remainder > 0) {
+            Numeral numeral = getLargestNumberFor(remainder);
+            numeralString.append(numeral.getNumeral());
+            remainder -= numeral.getNumber();
         }
 
         return numeralString.toString();
     }
 
-    private static int findBestNumeral2(int number) {
-        for (int i = 0; i < listOfNumerals.size(); i++) {
-            Numerals numerals = listOfNumerals.get(i);
-            if (number >= numerals.getNumber()) {
-                return i;
-            }
-        }
-        return -1;
+    private static Numeral getLargestNumberFor(int number) {
+        return listOfNumerals
+                .stream()
+                .filter(x -> x.getNumber() <= number)
+                .findFirst()
+                .get();
     }
 
     public static void main(String[] args) {
 
-        System.out.println(convertNumberToNumeral(100));
-        System.out.println(convertNumberToNumeral(24));
-        System.out.println(convertNumberToNumeral(54));
+        int number = Integer.parseInt(args[0]);
+
+        try {
+            System.out.println(convertNumberToNumeral(number));
+        } catch (InvalidNumberException e) {
+            LOGGER.severe(e.getMessage());
+        }
     }
 
 }
