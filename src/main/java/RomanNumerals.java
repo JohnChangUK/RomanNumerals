@@ -1,6 +1,7 @@
 import exceptions.InvalidNumberException;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -30,24 +31,22 @@ public class RomanNumerals {
             throw new InvalidNumberException("Invalid number given, enter a number greater than zero");
         }
 
-        int remainder = arabicNumber;
-        StringBuilder numeralString = new StringBuilder();
-
-        while (remainder > 0) {
-            Numeral numeral = getLargestNumberFor(remainder);
-            numeralString.append(numeral.getNumeral());
-            remainder -= numeral.getNumber();
-        }
-
-        return numeralString.toString();
+        return getLargestNumeralFor(arabicNumber);
     }
 
-    private static Numeral getLargestNumberFor(int number) {
-        return listOfNumerals
-                .stream()
-                .filter(x -> x.getNumber() <= number)
-                .findFirst()
-                .get();
+    private static String getLargestNumeralFor(int number) {
+
+        StringBuilder numeralValue = new StringBuilder();
+
+        for (Numeral numeral : listOfNumerals) {
+            int divisionRemainder = number / numeral.getNumber();
+            if (number >= numeral.getNumber() && divisionRemainder >= 1) {
+                numeralValue.append(String.join("", Collections.nCopies(divisionRemainder, numeral.getNumeral())));
+                number -= numeral.getNumber() * divisionRemainder;
+            }
+        }
+
+        return numeralValue.toString();
     }
 
     public static void main(String[] args) {
